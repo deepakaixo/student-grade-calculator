@@ -1,12 +1,8 @@
-# Student Grade Calculator 🎓
+# Student Grade Calculator 
 
 A simple and beginner-friendly web application to calculate student grades and academic performance. Built using **HTML, CSS, and JavaScript**.
 
-This project was created as a college assignment based on an assessment scenario with multiple subjects and marks distribution.
-
----
-
-## 📌 Features
+## Features
 
 - **Student Details**: Enter Student ID, Student Name, and Course.
 - **Subjects & Marks Breakdown**: Score each subject out of 100 based on:
@@ -27,7 +23,7 @@ This project was created as a college assignment based on an assessment scenario
 
 ---
 
-## 💻 Technologies Used
+## Technologies Used
 
 - **HTML5** - Structure of the web page
 - **CSS3** - Styling and responsive design
@@ -35,7 +31,7 @@ This project was created as a college assignment based on an assessment scenario
 
 ---
 
-## 🚀 How to Run
+## How to Run
 
 1. **Clone the repository**:
    ```bash
@@ -47,7 +43,7 @@ This project was created as a college assignment based on an assessment scenario
 
 ---
 
-## 👤 Author
+## Author
 
 - **Deepak Kumar**
 - GitHub: [@deepakaixo](https://github.com/deepakaixo)
