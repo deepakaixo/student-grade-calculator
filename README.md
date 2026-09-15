@@ -31,18 +31,6 @@ A simple and beginner-friendly web application to calculate student grades and a
 
 ---
 
-## How to Run
-
-1. **Clone the repository**:
-   ```bash
-   git clone https://github.com/deepakaixo/student-grade-calculator.git
-   ```
-2. **Open the project**:
-   - Go to the project folder.
-   - Double-click `index.html` to open it in Google Chrome, Microsoft Edge, or any browser.
-
----
-
 ## Author
 
 - **Deepak Kumar**
