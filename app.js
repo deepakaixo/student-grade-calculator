@@ -343,7 +343,7 @@ function renderSummaryTable(data) {
 function resetSummary() {
   dispPercentage.textContent = '0.0%';
   dispTotalMarks.textContent = '0 / 0';
-  dispCgpa.textContent = '0.0';
+  dispCgpa.textContent = '0.00';
   dispLetterGrade.textContent = '-';
   dispStatus.textContent = '-';
   dispStatus.className = 'metric-val status-highlight';
