@@ -108,13 +108,11 @@ function updateSavedCount() {
 // Grade Calculation Utilities
 // -------------------------------------------------------------
 function getGradeInfo(score) {
-  const rounded = Math.round(score * 10) / 10;
-  for (const item of GRADE_SCALE) {
-    if (rounded >= item.min) {
-      return item;
-    }
-  }
-  return GRADE_SCALE[GRADE_SCALE.length - 1];
+  const numericScore = Number(score);
+  if (!Number.isFinite(numericScore)) return GRADE_SCALE[GRADE_SCALE.length - 1];
+
+  const rounded = Math.round(numericScore * 10) / 10;
+  return GRADE_SCALE.find(item => rounded >= item.min) || GRADE_SCALE[GRADE_SCALE.length - 1];
 }
 
 // -------------------------------------------------------------
