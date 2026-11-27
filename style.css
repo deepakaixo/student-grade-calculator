@@ -817,3 +817,18 @@ input.input-error {
     print-color-adjust: exact;
   }
 }
+
+
+/* Small-screen layout refinements */
+@media (max-width: 640px) {
+  .app-container { padding: 14px 12px; gap: 16px; }
+  .app-header { padding: 18px; align-items: flex-start; }
+  .header-actions, .form-actions { width: 100%; flex-wrap: wrap; }
+  .header-actions .btn, .form-actions .btn { flex: 1 1 100%; }
+  .card { padding: 18px; }
+  .card-header { align-items: flex-start; gap: 12px; flex-wrap: wrap; }
+  .report-table-wrapper, .table-responsive {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
