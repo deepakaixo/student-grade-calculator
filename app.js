@@ -181,22 +181,16 @@ function createSubjectCard(defaultName = '', marks = { internal: '', midTerm: ''
 }
 
 function validateInput(input) {
-  const max = parseFloat(input.getAttribute('max'));
-  const min = parseFloat(input.getAttribute('min')) || 0;
-  const val = parseFloat(input.value);
+  const max = Number(input.getAttribute('max'));
+  const min = Number(input.getAttribute('min')) || 0;
+  const val = input.value === '' ? NaN : Number(input.value);
+  const isInvalid = !Number.isFinite(val) || val < min || val > max || !Number.isInteger(val);
 
-  if (isNaN(val)) {
-    input.classList.remove('input-error');
-    return 0;
-  }
+  input.classList.toggle('input-error', isInvalid);
+  input.setAttribute('aria-invalid', String(isInvalid));
 
-  if (val > max || val < min) {
-    input.classList.add('input-error');
-    return Math.min(Math.max(val, min), max);
-  } else {
-    input.classList.remove('input-error');
-    return val;
-  }
+  if (!Number.isFinite(val)) return 0;
+  return Math.min(Math.max(val, min), max);
 }
 
 // -------------------------------------------------------------
