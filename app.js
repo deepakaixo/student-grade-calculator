@@ -64,11 +64,15 @@ const summaryTableBody = document.getElementById('summary-table-body');
 // -------------------------------------------------------------
 // Database Simulation (Courses, Students, Marks Distribution)
 // -------------------------------------------------------------
+function createEmptyDatabase() {
+  return { courses: [], students: [], marksDistribution: [] };
+}
+
 function getDatabase() {
   try {
     const data = localStorage.getItem(DB_STORAGE_KEY);
     if (!data) {
-      return { courses: [], students: [], marksDistribution: [] };
+      return createEmptyDatabase();
     }
 
     const parsed = JSON.parse(data);
