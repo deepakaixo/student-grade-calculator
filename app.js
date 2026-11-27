@@ -101,7 +101,7 @@ function saveDatabase(db) {
 
 function updateSavedCount() {
   const db = getDatabase();
-  savedCountEl.textContent = db.students.length;
+  if (savedCountEl) savedCountEl.textContent = db.students.length;
 }
 
 // -------------------------------------------------------------
