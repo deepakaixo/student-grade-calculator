@@ -127,28 +127,28 @@ function createSubjectCard(defaultName = '', marks = { internal: '', midTerm: ''
 
   subjectDiv.innerHTML = `
     <div class="subject-top-bar">
-      <input type="text" class="subject-title-input" value="${name}" placeholder="Subject Name (e.g. Sub ${id})" />
+      <input type="text" class="subject-title-input" value="${escapeHtml(String(name))}" placeholder="Subject Name (e.g. Sub ${id})" />
       <div class="subject-top-meta">
         <span class="subject-score-badge" id="sub-badge-${id}">0 / 100 (F)</span>
-        <button type="button" class="btn-remove-sub" title="Remove Subject" ${document.querySelectorAll('.subject-item').length === 0 ? '' : ''}>&times;</button>
+        <button type="button" class="btn-remove-sub" title="Remove Subject">&times;</button>
       </div>
     </div>
     <div class="marks-inputs-grid">
       <div class="mark-field">
         <label>Internal <span class="max-tag">max 20</span></label>
-        <input type="number" class="mark-internal" min="0" max="20" placeholder="0" value="${marks.internal}" / step="1" inputmode="numeric">
+        <input type="number" class="mark-internal" min="0" max="20" step="1" inputmode="numeric" placeholder="0" value="${escapeHtml(String(marks.internal ?? ''))}" />
       </div>
       <div class="mark-field">
         <label>Mid Term <span class="max-tag">max 20</span></label>
-        <input type="number" class="mark-mid" min="0" max="20" placeholder="0" value="${marks.midTerm}" / step="1" inputmode="numeric">
+        <input type="number" class="mark-mid" min="0" max="20" step="1" inputmode="numeric" placeholder="0" value="${escapeHtml(String(marks.midTerm ?? ''))}" />
       </div>
       <div class="mark-field">
         <label>Practical <span class="max-tag">max 20</span></label>
-        <input type="number" class="mark-practical" min="0" max="20" placeholder="0" value="${marks.practical}" / step="1" inputmode="numeric">
+        <input type="number" class="mark-practical" min="0" max="20" step="1" inputmode="numeric" placeholder="0" value="${escapeHtml(String(marks.practical ?? ''))}" />
       </div>
       <div class="mark-field">
         <label>End Term <span class="max-tag">max 40</span></label>
-        <input type="number" class="mark-end" min="0" max="40" placeholder="0" value="${marks.endTerm}" / step="1" inputmode="numeric">
+        <input type="number" class="mark-end" min="0" max="40" step="1" inputmode="numeric" placeholder="0" value="${escapeHtml(String(marks.endTerm ?? ''))}" />
       </div>
     </div>
   `;
