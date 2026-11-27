@@ -31,6 +31,18 @@ A simple and beginner-friendly web application to calculate student grades and a
 
 ---
 
+## How to Run
+
+1. Clone or download this repository.
+2. Open the project folder.
+3. Open `index.html` in a modern web browser.
+
+No package installation or build step is required.
+
+## Data Storage
+
+Student records are saved in the browser's `localStorage` on the device and browser where the app is used. This is a front-end demonstration; it does not connect to a hosted SQL database. Clearing browser site data can remove saved records.
+
 ## Author
 
 - **Deepak Kumar**
