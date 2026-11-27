@@ -65,25 +65,34 @@ const summaryTableBody = document.getElementById('summary-table-body');
 // Database Simulation (Courses, Students, Marks Distribution)
 // -------------------------------------------------------------
 function getDatabase() {
-  const data = localStorage.getItem(DB_STORAGE_KEY);
-  if (!data) {
-    return {
-      courses: [],
-      students: [],
-      marksDistribution: []
-    };
-  }
   try {
-    return JSON.parse(data);
-  } catch (e) {
-    console.error('Failed to parse DB data:', e);
+    const data = localStorage.getItem(DB_STORAGE_KEY);
+    if (!data) {
+      return { courses: [], students: [], marksDistribution: [] };
+    }
+
+    const parsed = JSON.parse(data);
+    return {
+      courses: Array.isArray(parsed.courses) ? parsed.courses : [],
+      students: Array.isArray(parsed.students) ? parsed.students : [],
+      marksDistribution: Array.isArray(parsed.marksDistribution) ? parsed.marksDistribution : []
+    };
+  } catch (error) {
+    console.error('Unable to read saved grade records:', error);
     return { courses: [], students: [], marksDistribution: [] };
   }
 }
 
 function saveDatabase(db) {
-  localStorage.setItem(DB_STORAGE_KEY, JSON.stringify(db));
-  updateSavedCount();
+  try {
+    localStorage.setItem(DB_STORAGE_KEY, JSON.stringify(db));
+    updateSavedCount();
+    return true;
+  } catch (error) {
+    console.error('Unable to save grade records:', error);
+    showToast('Could not save records. Browser storage may be full or disabled.', true);
+    return false;
+  }
 }
 
 function updateSavedCount() {
@@ -407,7 +416,7 @@ function saveCurrentAssessment() {
     });
   });
 
-  saveDatabase(db);
+  if (!saveDatabase(db)) return;
   showToast(`✅ Saved records for ${result.studentName} (${result.studentId}) into relational database!`);
 }
 
