@@ -136,19 +136,19 @@ function createSubjectCard(defaultName = '', marks = { internal: '', midTerm: ''
     <div class="marks-inputs-grid">
       <div class="mark-field">
         <label>Internal <span class="max-tag">max 20</span></label>
-        <input type="number" class="mark-internal" min="0" max="20" placeholder="0" value="${marks.internal}" />
+        <input type="number" class="mark-internal" min="0" max="20" placeholder="0" value="${marks.internal}" / step="1" inputmode="numeric">
       </div>
       <div class="mark-field">
         <label>Mid Term <span class="max-tag">max 20</span></label>
-        <input type="number" class="mark-mid" min="0" max="20" placeholder="0" value="${marks.midTerm}" />
+        <input type="number" class="mark-mid" min="0" max="20" placeholder="0" value="${marks.midTerm}" / step="1" inputmode="numeric">
       </div>
       <div class="mark-field">
         <label>Practical <span class="max-tag">max 20</span></label>
-        <input type="number" class="mark-practical" min="0" max="20" placeholder="0" value="${marks.practical}" />
+        <input type="number" class="mark-practical" min="0" max="20" placeholder="0" value="${marks.practical}" / step="1" inputmode="numeric">
       </div>
       <div class="mark-field">
         <label>End Term <span class="max-tag">max 40</span></label>
-        <input type="number" class="mark-end" min="0" max="40" placeholder="0" value="${marks.endTerm}" />
+        <input type="number" class="mark-end" min="0" max="40" placeholder="0" value="${marks.endTerm}" / step="1" inputmode="numeric">
       </div>
     </div>
   `;
