@@ -281,11 +281,13 @@ function calculateAll(showNotification = true) {
   const cgpa = subjectElements.length > 0 ? totalGradePoints / subjectElements.length : 0;
   const overallGradeInfo = getGradeInfo(percentage);
   const isPassed = !hasFailure && percentage >= 40;
+  const formattedPercentage = percentage.toFixed(1);
+  const formattedCgpa = cgpa.toFixed(2);
 
   // Update Summary DOM
-  dispPercentage.textContent = `${percentage.toFixed(1)}%`;
+  dispPercentage.textContent = `${formattedPercentage}%`;
   dispTotalMarks.textContent = `${totalScored} / ${maxPossible}`;
-  dispCgpa.textContent = cgpa.toFixed(2);
+  dispCgpa.textContent = formattedCgpa;
   dispLetterGrade.textContent = isPassed ? overallGradeInfo.grade : 'F';
   
   dispStatus.textContent = isPassed ? 'PASSED' : 'FAIL / BACK';
@@ -298,7 +300,7 @@ function calculateAll(showNotification = true) {
   renderSummaryTable(breakdownData);
 
   if (showNotification) {
-    showToast(`Calculated: ${percentage.toFixed(1)}% | CGPA: ${cgpa.toFixed(2)} | Grade: ${isPassed ? overallGradeInfo.grade : 'F'}`);
+    showToast(`Calculated: ${formattedPercentage}% | CGPA: ${formattedCgpa} | Grade: ${isPassed ? overallGradeInfo.grade : 'F'}`);
   }
 
   return {
