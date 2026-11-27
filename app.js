@@ -193,6 +193,16 @@ function validateInput(input) {
   return Math.min(Math.max(val, min), max);
 }
 
+function hasInvalidMarks() {
+  return Array.from(document.querySelectorAll('.marks-inputs-grid input[type="number"]'))
+    .some(input => input.value !== '' && (
+      !Number.isFinite(Number(input.value)) ||
+      !Number.isInteger(Number(input.value)) ||
+      Number(input.value) < Number(input.min) ||
+      Number(input.value) > Number(input.max)
+    ));
+}
+
 // -------------------------------------------------------------
 // Calculation Engine
 // -------------------------------------------------------------
@@ -344,6 +354,12 @@ function resetSummary() {
 function saveCurrentAssessment() {
   const result = calculateAll(false);
   if (!result) return;
+
+  if (hasInvalidMarks()) {
+    showToast('Please correct invalid marks before saving.', true);
+    document.querySelector('.input-error')?.focus();
+    return;
+  }
 
   if (!result.studentId || result.studentId === '---') {
     showToast('⚠️ Please provide a Student ID before saving.', true);
