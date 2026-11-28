@@ -216,6 +216,13 @@
             <div class="student-search-bar">
               <label for="student-search">Search saved students</label>
               <input type="search" id="student-search" placeholder="Search by ID, name, or course..." autocomplete="off" />
+              <label for="student-sort">Sort student records</label>
+              <select id="student-sort">
+                <option value="recent">Most recently saved</option>
+                <option value="name">Name (A–Z)</option>
+                <option value="percentage-high">Percentage (high to low)</option>
+                <option value="percentage-low">Percentage (low to high)</option>
+              </select>
             </div>
             <div class="table-responsive">
               <table class="db-table">
