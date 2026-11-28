@@ -696,6 +696,35 @@ btnExportDb.addEventListener('click', () => {
   showToast('Database exported as JSON file.');
 });
 
+const btnExportCsv = document.getElementById('btn-export-csv');
+if (btnExportCsv) {
+  btnExportCsv.addEventListener('click', () => {
+    const students = getDatabase().students;
+    if (students.length === 0) {
+      showToast('There are no student records to export.', true);
+      return;
+    }
+
+    const columns = ['studentId', 'studentName', 'courseId', 'courseName', 'percentage', 'cgpa', 'grade', 'status', 'timestamp'];
+    const escapeCsv = value => `"${String(value ?? '').replace(/"/g, '""')}"`;
+    const rows = [
+      columns.join(','),
+      ...students.map(student => columns.map(column => escapeCsv(student[column])).join(','))
+    ];
+    const csvContent = '\uFEFF' + rows.join('\r\n');
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `student_records_${new Date().toISOString().slice(0, 10)}.csv`;
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    URL.revokeObjectURL(url);
+    showToast('Student records exported as CSV.');
+  });
+}
+
 // Live updates on student/course info change
 [studentIdInput, studentNameInput, courseIdInput, courseNameInput].forEach(inp => {
   inp.addEventListener('input', () => calculateAll(false));
