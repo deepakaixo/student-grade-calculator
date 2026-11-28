@@ -867,7 +867,7 @@ if (btnExportMarksCsv) {
       columns.join(','),
       ...marks.map(record => columns.map(column => escapeCsvCell(record[column])).join(','))
     ];
-    const blob = new Blob(['\\uFEFF' + rows.join('\\r\\n')], { type: 'text/csv;charset=utf-8;' });
+    const blob = new Blob(['\uFEFF' + rows.join('\r\n')], { type: 'text/csv;charset=utf-8;' });
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
