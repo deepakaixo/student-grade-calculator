@@ -434,8 +434,9 @@ function saveCurrentAssessment() {
   showToast(`✅ Saved records for ${result.studentName} (${result.studentId}) into relational database!`);
 }
 
-function renderDatabaseTables() {
+function renderDatabaseTables(searchTerm = '') {
   const db = getDatabase();
+  const normalizedSearch = searchTerm.trim().toLowerCase();
 
   // 1. Marks Distribution Table
   const marksBody = document.getElementById('db-marks-body');
@@ -462,10 +463,21 @@ function renderDatabaseTables() {
   // 2. Student Table
   const studentsBody = document.getElementById('db-students-body');
   studentsBody.innerHTML = '';
-  if (db.students.length === 0) {
-    studentsBody.innerHTML = '<tr><td colspan="7" class="empty-state">No students found.</td></tr>';
+  const visibleStudents = db.students.filter(stu => {
+    const searchableText = [stu.studentId, stu.studentName, stu.courseName]
+      .filter(Boolean)
+      .join(' ')
+      .toLowerCase();
+    return searchableText.includes(normalizedSearch);
+  });
+
+  if (visibleStudents.length === 0) {
+    const message = db.students.length === 0
+      ? 'No students found.'
+      : 'No students match your search.';
+    studentsBody.innerHTML = `<tr><td colspan="7" class="empty-state">${message}</td></tr>`;
   } else {
-    db.students.forEach(stu => {
+    visibleStudents.forEach(stu => {
       const tr = document.createElement('tr');
       tr.innerHTML = `
         <td><strong>${escapeHtml(stu.studentId)}</strong></td>
@@ -632,9 +644,18 @@ btnPrintReport.addEventListener('click', () => window.print());
 
 // Modal Navigation
 btnToggleDb.addEventListener('click', () => {
+  const searchInput = document.getElementById('student-search');
+  if (searchInput) searchInput.value = '';
   renderDatabaseTables();
   dbModal.classList.remove('hidden');
 });
+
+const studentSearchInput = document.getElementById('student-search');
+if (studentSearchInput) {
+  studentSearchInput.addEventListener('input', () => {
+    renderDatabaseTables(studentSearchInput.value);
+  });
+}
 
 btnCloseDb.addEventListener('click', () => dbModal.classList.add('hidden'));
 btnCloseDbBottom.addEventListener('click', () => dbModal.classList.add('hidden'));
