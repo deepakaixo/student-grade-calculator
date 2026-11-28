@@ -43,6 +43,8 @@ const btnToggleDb = document.getElementById('btn-toggle-db');
 const btnCloseDb = document.getElementById('btn-close-db');
 const btnCloseDbBottom = document.getElementById('btn-close-db-bottom');
 const btnClearDb = document.getElementById('btn-clear-db');
+const btnImportDb = document.getElementById('btn-import-db');
+const dbImportFile = document.getElementById('db-import-file');
 const btnExportDb = document.getElementById('btn-export-db');
 const dbModal = document.getElementById('db-modal');
 const toastEl = document.getElementById('toast');
@@ -706,6 +708,55 @@ btnClearDb.addEventListener('click', () => {
     showToast('Database records cleared.');
   }
 });
+
+if (btnImportDb && dbImportFile) {
+  btnImportDb.addEventListener('click', () => dbImportFile.click());
+
+  dbImportFile.addEventListener('change', async () => {
+    const file = dbImportFile.files?.[0];
+    if (!file) return;
+
+    try {
+      const backup = JSON.parse(await file.text());
+      const validArray = key => Array.isArray(backup[key]);
+      if (!backup || typeof backup !== 'object' ||
+          !validArray('courses') || !validArray('students') || !validArray('marksDistribution')) {
+        throw new Error('The selected file is not a valid grade calculator backup.');
+      }
+
+      const studentIds = new Set();
+      for (const student of backup.students) {
+        if (!student || typeof student.studentId !== 'string' ||
+            typeof student.studentName !== 'string' ||
+            !Number.isFinite(Number(student.percentage)) ||
+            !Number.isFinite(Number(student.cgpa))) {
+          throw new Error('The backup contains an invalid student record.');
+        }
+        const normalizedId = student.studentId.trim().toLowerCase();
+        if (!normalizedId || studentIds.has(normalizedId)) {
+          throw new Error('The backup contains an empty or duplicate student ID.');
+        }
+        studentIds.add(normalizedId);
+      }
+
+      const confirmed = confirm(`Import ${backup.students.length} student record(s)? This replaces the current saved database.`);
+      if (!confirmed) return;
+
+      if (saveDatabase({
+        courses: backup.courses,
+        students: backup.students,
+        marksDistribution: backup.marksDistribution
+      })) {
+        renderDatabaseTables(document.getElementById('student-search')?.value || '');
+        showToast('Database backup imported successfully.');
+      }
+    } catch (error) {
+      showToast(error.message || 'Unable to import this backup file.', true);
+    } finally {
+      dbImportFile.value = '';
+    }
+  });
+}
 
 btnExportDb.addEventListener('click', () => {
   const db = getDatabase();
