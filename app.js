@@ -440,6 +440,13 @@ function saveCurrentAssessment() {
 function renderDatabaseTables(searchTerm = '') {
   const db = getDatabase();
   const normalizedSearch = searchTerm.trim().toLowerCase();
+
+  const totalStudentsEl = document.getElementById('db-total-students');
+  const totalCoursesEl = document.getElementById('db-total-courses');
+  const totalMarksEl = document.getElementById('db-total-marks');
+  if (totalStudentsEl) totalStudentsEl.textContent = db.students.length;
+  if (totalCoursesEl) totalCoursesEl.textContent = db.courses.length;
+  if (totalMarksEl) totalMarksEl.textContent = db.marksDistribution.length;
   const sortMode = document.getElementById('student-sort')?.value || 'recent';
 
   // 1. Marks Distribution Table
