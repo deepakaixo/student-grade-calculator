@@ -486,8 +486,9 @@ function renderDatabaseTables(searchTerm = '') {
         <td>${stu.percentage}%</td>
         <td><strong>${stu.cgpa}</strong></td>
         <td><small>${stu.timestamp}</small></td>
-        <td>
+        <td class="student-row-actions">
           <button class="btn btn-sm btn-outline btn-load-student" data-id="${escapeHtml(stu.studentId)}">Load</button>
+          <button class="btn btn-sm btn-danger btn-delete-student" data-id="${escapeHtml(stu.studentId)}">Delete</button>
         </td>
       `;
       studentsBody.appendChild(tr);
@@ -498,6 +499,22 @@ function renderDatabaseTables(searchTerm = '') {
       btn.addEventListener('click', () => {
         loadStudentRecord(btn.dataset.id);
         dbModal.classList.add('hidden');
+      });
+    });
+
+    studentsBody.querySelectorAll('.btn-delete-student').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const studentId = btn.dataset.id;
+        if (!confirm(`Delete the saved record for ${studentId}? This also removes its marks.`)) return;
+
+        const currentDb = getDatabase();
+        currentDb.students = currentDb.students.filter(student => student.studentId.toLowerCase() !== studentId.toLowerCase());
+        currentDb.marksDistribution = currentDb.marksDistribution.filter(mark => mark.studentId.toLowerCase() !== studentId.toLowerCase());
+
+        if (saveDatabase(currentDb)) {
+          renderDatabaseTables(document.getElementById('student-search')?.value || '');
+          showToast(`Deleted student record ${studentId}.`);
+        }
       });
     });
   }
