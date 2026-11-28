@@ -443,10 +443,21 @@ function renderDatabaseTables(searchTerm = '') {
   // 1. Marks Distribution Table
   const marksBody = document.getElementById('db-marks-body');
   marksBody.innerHTML = '';
-  if (db.marksDistribution.length === 0) {
-    marksBody.innerHTML = '<tr><td colspan="8" class="empty-state">No marks recorded in database.</td></tr>';
+  const visibleMarks = db.marksDistribution.filter(row => {
+    const searchableText = [row.studentId, row.subjectName]
+      .filter(Boolean)
+      .join(' ')
+      .toLowerCase();
+    return searchableText.includes(normalizedSearch);
+  });
+
+  if (visibleMarks.length === 0) {
+    const message = db.marksDistribution.length === 0
+      ? 'No marks recorded in database.'
+      : 'No marks match your search.';
+    marksBody.innerHTML = `<tr><td colspan="8" class="empty-state">${message}</td></tr>`;
   } else {
-    db.marksDistribution.forEach(row => {
+    visibleMarks.forEach(row => {
       const tr = document.createElement('tr');
       tr.innerHTML = `
         <td><strong>${escapeHtml(row.studentId)}</strong></td>
