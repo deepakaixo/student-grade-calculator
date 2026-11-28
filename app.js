@@ -822,7 +822,10 @@ if (btnExportCsv) {
     }
 
     const columns = ['studentId', 'studentName', 'courseId', 'courseName', 'percentage', 'cgpa', 'grade', 'status', 'timestamp'];
-    const escapeCsv = value => `"${String(value ?? '').replace(/"/g, '""')}"`;
+    const escapeCsv = value => {
+      const safeValue = String(value ?? '').replace(/^[=+@-]/, "'    const escapeCsv = value => `"${String(value ?? '').replace(/"/g, '""')}"`;");
+      return `"${safeValue.replace(/"/g, '""')}"`;
+    };
     const rows = [
       columns.join(','),
       ...students.map(student => columns.map(column => escapeCsv(student[column])).join(','))
