@@ -832,3 +832,34 @@ input.input-error {
     -webkit-overflow-scrolling: touch;
   }
 }
+
+
+/* Saved student search */
+.student-search-bar {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  margin: 0 0 16px;
+  max-width: 420px;
+}
+
+.student-search-bar label {
+  color: var(--text-muted);
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+.student-search-bar input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--bg-card);
+  color: var(--text-main);
+  font: inherit;
+}
+
+.student-search-bar input:focus {
+  outline: 2px solid var(--border-focus);
+  outline-offset: 1px;
+}
