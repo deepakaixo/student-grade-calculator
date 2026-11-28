@@ -439,6 +439,7 @@ function saveCurrentAssessment() {
 function renderDatabaseTables(searchTerm = '') {
   const db = getDatabase();
   const normalizedSearch = searchTerm.trim().toLowerCase();
+  const sortMode = document.getElementById('student-sort')?.value || 'recent';
 
   // 1. Marks Distribution Table
   const marksBody = document.getElementById('db-marks-body');
@@ -482,6 +483,19 @@ function renderDatabaseTables(searchTerm = '') {
       .join(' ')
       .toLowerCase();
     return searchableText.includes(normalizedSearch);
+  });
+
+  visibleStudents.sort((first, second) => {
+    if (sortMode === 'name') {
+      return String(first.studentName || '').localeCompare(String(second.studentName || ''));
+    }
+    if (sortMode === 'percentage-high') {
+      return Number(second.percentage || 0) - Number(first.percentage || 0);
+    }
+    if (sortMode === 'percentage-low') {
+      return Number(first.percentage || 0) - Number(second.percentage || 0);
+    }
+    return new Date(second.timestamp || 0) - new Date(first.timestamp || 0);
   });
 
   if (visibleStudents.length === 0) {
@@ -684,6 +698,13 @@ const studentSearchInput = document.getElementById('student-search');
 if (studentSearchInput) {
   studentSearchInput.addEventListener('input', () => {
     renderDatabaseTables(studentSearchInput.value);
+  });
+}
+
+const studentSortSelect = document.getElementById('student-sort');
+if (studentSortSelect) {
+  studentSortSelect.addEventListener('change', () => {
+    renderDatabaseTables(studentSearchInput?.value || '');
   });
 }
 
