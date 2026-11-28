@@ -663,6 +663,12 @@ dbModal.addEventListener('click', (e) => {
   if (e.target === dbModal) dbModal.classList.add('hidden');
 });
 
+document.addEventListener('keydown', event => {
+  if (event.key === 'Escape' && dbModal && !dbModal.classList.contains('hidden')) {
+    dbModal.classList.add('hidden');
+  }
+});
+
 // Database Tabs Switching
 document.querySelectorAll('.db-tab').forEach(tabBtn => {
   tabBtn.addEventListener('click', () => {
