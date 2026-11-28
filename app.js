@@ -766,6 +766,23 @@ if (btnImportDb && dbImportFile) {
         throw new Error('The selected file is not a valid grade calculator backup.');
       }
 
+      const validCourses = backup.courses.every(course =>
+        course && typeof course.courseId === 'string' &&
+        typeof course.courseName === 'string' &&
+        Array.isArray(course.subjects) &&
+        course.subjects.every(subject => typeof subject === 'string')
+      );
+      if (!validCourses) throw new Error('The backup contains an invalid course record.');
+
+      const validMarks = backup.marksDistribution.every(mark =>
+        mark && typeof mark.studentId === 'string' &&
+        typeof mark.subjectName === 'string' &&
+        ['internal', 'midTerm', 'practical', 'endTerm', 'total'].every(key =>
+          Number.isFinite(Number(mark[key]))
+        )
+      );
+      if (!validMarks) throw new Error('The backup contains an invalid subject marks record.');
+
       const studentIds = new Set();
       for (const student of backup.students) {
         if (!student || typeof student.studentId !== 'string' ||
