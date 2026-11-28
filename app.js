@@ -841,6 +841,37 @@ if (btnExportCsv) {
   });
 }
 
+const btnExportMarksCsv = document.getElementById('btn-export-marks-csv');
+if (btnExportMarksCsv) {
+  btnExportMarksCsv.addEventListener('click', () => {
+    const marks = getDatabase().marksDistribution;
+    if (marks.length === 0) {
+      showToast('There are no subject marks to export.', true);
+      return;
+    }
+
+    const columns = ['studentId', 'subjectName', 'internal', 'midTerm', 'practical', 'endTerm', 'total', 'grade'];
+    const escapeCsvCell = value => {
+      const safeValue = String(value ?? '').replace(/^[=+@-]/, "'// Live updates on student/course info change");
+      return `"${safeValue.replace(/"/g, '""')}"`;
+    };
+    const rows = [
+      columns.join(','),
+      ...marks.map(record => columns.map(column => escapeCsvCell(record[column])).join(','))
+    ];
+    const blob = new Blob(['\\uFEFF' + rows.join('\\r\\n')], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `subject_marks_${new Date().toISOString().slice(0, 10)}.csv`;
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    URL.revokeObjectURL(url);
+    showToast('Subject marks exported as CSV.');
+  });
+}
+
 // Live updates on student/course info change
 [studentIdInput, studentNameInput, courseIdInput, courseNameInput].forEach(inp => {
   inp.addEventListener('input', () => calculateAll(false));
