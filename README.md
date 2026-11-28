@@ -19,6 +19,8 @@ A simple and beginner-friendly web application to calculate student grades and a
 - **Add or Remove Subjects**: Easily add more subjects or remove them.
 - **Save Records**: Save student grades in the browser (LocalStorage) and view them in a database view.
 - **Print Report Card**: Print or save your report card as a PDF.
+- **Database Export**: Download all stored tables as JSON or export student summaries as CSV.
+- **Student Search**: Find saved students by ID, name, or course in the database view.
 - **Sample Data Button**: Quickly test the app with one click.
 
 ---
