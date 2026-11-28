@@ -863,3 +863,16 @@ input.input-error {
   outline: 2px solid var(--border-focus);
   outline-offset: 1px;
 }
+
+
+/* Actions available for each saved student */
+.student-row-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+}
+
+.student-row-actions .btn {
+  padding: 6px 10px;
+}
