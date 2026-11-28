@@ -406,7 +406,8 @@ function saveCurrentAssessment() {
     cgpa: result.cgpa,
     grade: result.grade,
     status: result.status,
-    timestamp: new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+    timestamp: new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+    savedAt: new Date().toISOString()
   };
 
   if (studentIndex >= 0) {
@@ -495,7 +496,9 @@ function renderDatabaseTables(searchTerm = '') {
     if (sortMode === 'percentage-low') {
       return Number(first.percentage || 0) - Number(second.percentage || 0);
     }
-    return new Date(second.timestamp || 0) - new Date(first.timestamp || 0);
+    const firstDate = Date.parse(first.savedAt || first.timestamp || '') || 0;
+    const secondDate = Date.parse(second.savedAt || second.timestamp || '') || 0;
+    return secondDate - firstDate;
   });
 
   if (visibleStudents.length === 0) {
